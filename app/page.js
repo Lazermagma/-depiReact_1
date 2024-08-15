@@ -7,19 +7,22 @@ import Header from "./components/Header/header.component";
 import List from "./components/List/list.component";
 import Counter from "./components/Counter/counter.component";
 import School from "./School/page";
-import Link from "next/link";
+import { Link, Outlet } from "next/link";
 import NavBar from "./components/NavBar/navbar.component";
 const page = () => {
   return (
-    <main className={styles.main}>
-      <NavBar />
-      <Content />
-      <Form />
-      <Header />
-      <List />
-      <Time />
-      <Counter />
-      <Link href="/School"> School</Link>
+    <main>
+      <div className=" d-flex flex-column align-items-center">
+        {/* <Content />
+        <Form />
+        <Header />
+        <List />
+        <Time />
+        <Counter /> */}
+
+
+        
+      </div>
     </main>
   );
 };
