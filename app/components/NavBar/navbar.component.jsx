@@ -1,19 +1,38 @@
-import React from "react";
-import Link from "next/link";
-import styles from "./navbar.module.css";
-const NavBar = () => {
-  return (
-    <>
-      <div className="navbar navbar-expand-sm  bg-dark   ">
-        <div className="navbar-brand ">
-          <Link className="nav-link text-white p-3" href="/">
-            SchoolLogo
-          </Link>
-        </div>
+"use client";
 
-        <div className="container-fluid d-flex justify-content-center  ">
-          <ul className="navbar-nav gap-5  ">
-            <li className="nav-item ">
+import { React, useState } from "react";
+import Link from "next/link";
+import { auth } from "@/app/firebase/firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+
+const NavBar = () => {
+  const [ShowBtn, setShowBtn] = useState(true);
+
+  const logOut = () => {
+    auth.signOut();
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      //if user is signed in
+      const uid = user.uid;
+      console.log(uid);
+      setShowBtn(false);
+    } else {
+      //if user is not signed
+      setShowBtn(true);
+    }
+  });
+
+  return (
+    <nav className="navbar navbar-expand-sm bg-dark">
+      <div className="container-fluid">
+        <Link href="/" className="navbar-brand text-white p-3">
+          SchoolLogo
+        </Link>
+        <div className="d-flex justify-content-center">
+          <ul className="navbar-nav gap-5">
+            <li className="nav-item">
               <Link href="/School" className="nav-link text-white">
                 School
               </Link>
@@ -30,13 +49,19 @@ const NavBar = () => {
             </li>
           </ul>
         </div>
-        <div className="btn btn-warning m-3">
-          <Link href="/Login" className="nav-link text-white  ">
-            Login
-          </Link>
+        <div className="m-3">
+          {ShowBtn ? (
+            <Link href="/Login" passHref>
+              <button className="btn btn-warning text-white">Login</button>
+            </Link>
+          ) : (
+            <button className="btn btn-warning text-white" onClick={logOut}>
+              LogOut
+            </button>
+          )}
         </div>
       </div>
-    </>
+    </nav>
   );
 };
 

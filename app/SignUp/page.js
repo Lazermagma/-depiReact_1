@@ -1,12 +1,12 @@
 "use client";
 
 import { React, useState } from "react";
-
-import Link from "next/link";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 
-function Login() {
+import Link from "next/link";
+import { redirect } from "next/navigation";
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [Error, setError] = useState("");
@@ -17,7 +17,7 @@ function Login() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    signInWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
@@ -26,6 +26,10 @@ function Login() {
         setTimeout(() => {
           setLogSuccess(false);
         }, 3000);
+
+        setTimeout(() => {
+          window.location.href = "/Login";
+        }, 1000);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -41,7 +45,7 @@ function Login() {
   return (
     <>
       <div>
-        <h1 className="text-center p-5">Login Form</h1>
+        <h1 className="text-center p-5">Sign Up Form</h1>
 
         <form>
           <div className="container form-group d-flex justify-content-center flex-column w-50">
@@ -70,7 +74,7 @@ function Login() {
               className="btn btn-warning "
               onClick={onSubmit}
             >
-              Sign In
+              Sign Up
             </button>
             {ErrorRtn ? (
               <div class="alert alert-danger my-5" role="alert">
@@ -81,8 +85,8 @@ function Login() {
             )}
 
             {LogSuccess ? (
-              <div className="alert alert-success my-5" role="alert">
-                Signed In successfully!
+              <div class="alert alert-success my-5" role="alert">
+                Signed Up successfully!
               </div>
             ) : (
               ""
@@ -91,13 +95,13 @@ function Login() {
         </form>
 
         <div className="d-flex gap-2 justify-content-center ">
-          <p>Don't have an Account? </p>
-          <Link href="/SignUp"> Sign Up </Link>
+          <p>Already have an Account? </p>
+          <Link href="/Login"> Sign In </Link>
           <p> From Here </p>
         </div>
       </div>
     </>
   );
-}
+};
 
-export default Login;
+export default SignUp;

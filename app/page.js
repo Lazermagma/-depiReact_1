@@ -11,19 +11,18 @@ import { Link, Outlet } from "next/link";
 import NavBar from "./components/NavBar/navbar.component";
 const page = () => {
   return (
-    <main>
+    <>
       <div className=" d-flex flex-column align-items-center">
         {/* <Content />
         <Form />
         <Header />
         <List />
-        <Time />
+    
         <Counter /> */}
 
-
-        
+        <Time />
       </div>
-    </main>
+    </>
   );
 };
 
